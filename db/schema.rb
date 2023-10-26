@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_26_073705) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_26_074708) do
   create_table "activities", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id"
     t.datetime "completed_at"
@@ -21,6 +21,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_073705) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "tasks", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "activity_id"
+    t.bigint "user_id"
+    t.datetime "completed_at"
+    t.datetime "cancelled_at"
+    t.string "state"
+    t.string "title"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_tasks_on_activity_id"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
