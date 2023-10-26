@@ -9,4 +9,7 @@ class User < ApplicationRecord
 
   has_many :activities
   has_many :tasks
+
+  has_many :members
+  has_many :activities, through: :members
 end
