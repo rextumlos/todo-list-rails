@@ -12,4 +12,6 @@ class User < ApplicationRecord
 
   has_many :members
   has_many :activities, through: :members
+  has_many :assigned_members
+  has_many :users, through: :assigned_members
 end
