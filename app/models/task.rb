@@ -7,6 +7,7 @@ class Task < ApplicationRecord
 
   has_many :task_tag_ships
   has_many :tags, through: :task_tag_ships
-  has_many :assigned_members
-  has_many :users, through: :assigned_members
+
+  has_many :assigned_member_relations, class_name: 'AssignedMember'
+  has_many :assigned_members, through: :assigned_member_relations, source: :user
 end
