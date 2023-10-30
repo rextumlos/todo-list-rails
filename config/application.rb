@@ -34,5 +34,8 @@ module App
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # To use: datetime.to_fs || datetime.to_fs(:ymd)
+    Time::DATE_FORMATS.merge!(default: '%Y/%m/%d %I:%M %p', ymd: '%Y/%m/%d')
   end
 end
