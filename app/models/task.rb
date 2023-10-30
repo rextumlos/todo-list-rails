@@ -10,4 +10,39 @@ class Task < ApplicationRecord
 
   has_many :assigned_member_relations, class_name: 'AssignedMember'
   has_many :assigned_members, through: :assigned_member_relations, source: :user
+
+  include AASM
+  
+  aasm column: :state do
+    state :pending, initial: true
+    state :in_progress, :completed, :failed, :cancelled
+
+    event :start do
+      transitions from: :pending, to: :in_progress
+    end
+
+    event :complete do
+      transitions from: :in_progress, to: :completed, after: :set_completed_date
+    end
+
+    event :fail do
+      transitions from: :in_progress, to :failed
+    end
+
+    event :cancel do
+      transitions from: [:in_progress, :completed, :failed], to :cancelled, after: :set_cancelled_date
+    end
+
+    event :retry do
+      transitions from: :failed, to :in_progress
+    end
+  end
+
+  def set_completed_date
+    task.update(completed_at: DateTime.now)
+  end
+
+  def set_cancelled_date
+    task.update(cancelled_at: DateTime.now)
+  end
 end
