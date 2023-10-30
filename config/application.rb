@@ -29,6 +29,7 @@ module App
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = 'Hong Kong'
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Don't generate system test files.
