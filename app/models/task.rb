@@ -11,6 +11,9 @@ class Task < ApplicationRecord
   has_many :assigned_member_relations, class_name: 'AssignedMember'
   has_many :assigned_members, through: :assigned_member_relations, source: :user
 
+  scope :recent, -> { order(created_at: :desc) }
+  scope :search_by_title, -> (title) { where('title LIKE :search', search: "%#{title}%") }
+
   include AASM
   
   aasm column: :state do
