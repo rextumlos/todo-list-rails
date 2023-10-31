@@ -44,11 +44,11 @@ class Task < ApplicationRecord
   end
 
   def set_completed_date
-    update(completed_at: DateTime.now)
+    update(completed_at: Time.current)
   end
 
   def set_cancelled_date
-    update(cancelled_at: DateTime.now)
+    update(cancelled_at: Time.current)
   end
 
   def set_activity_in_progress
