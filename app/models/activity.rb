@@ -42,7 +42,7 @@ class Activity < ApplicationRecord
     event :retry do
       transitions from: [:in_progress, :completed, :failed, :cancelled], to: :pending,
                   guard: :all_task_not_in_progress?,
-                  success: :set_all_task_to_pending
+                  success: [:set_all_task_to_pending, :null_completed_cancelled_date]
     end
   end
 
@@ -62,5 +62,9 @@ class Activity < ApplicationRecord
 
   def set_cancelled_date
     update(cancelled_at: DateTime.now)
+  end
+
+  def null_completed_cancelled_date
+    update(completed_at: nil, cancelled_at: nil)
   end
 end

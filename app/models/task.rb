@@ -37,7 +37,7 @@ class Task < ApplicationRecord
     end
 
     event :retry do
-      transitions from: :failed, to: :pending
+      transitions from: :failed, to: :pending, after: :null_completed_cancelled_date
     end
   end
 
@@ -51,5 +51,9 @@ class Task < ApplicationRecord
 
   def set_activity_in_progress
     activity.start! if activity.may_start?
+  end
+
+  def null_completed_cancelled_date
+    update(completed_at: nil, cancelled_at: nil)
   end
 end
