@@ -15,4 +15,10 @@ class User < ApplicationRecord
 
   has_many :assigned_members
   has_many :tasks, through: :assigned_members
+
+  delegate :display_name, to: :profile
+  delegate :birthday ,to: :profile
+  delegate :location ,to: :profile
+  delegate :bio ,to: :profile
+  delegate :image ,to: :profile
 end
