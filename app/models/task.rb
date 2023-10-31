@@ -18,7 +18,7 @@ class Task < ApplicationRecord
     state :in_progress, :completed, :failed, :cancelled
 
     event :start do
-      transitions from: :pending, to: :in_progress
+      transitions from: :pending, to: :in_progress, after: :set_activity_in_progress
     end
 
     event :complete do
@@ -26,23 +26,27 @@ class Task < ApplicationRecord
     end
 
     event :fail do
-      transitions from: :in_progress, to :failed
+      transitions from: :in_progress, to: :failed
     end
 
     event :cancel do
-      transitions from: [:in_progress, :completed, :failed], to :cancelled, after: :set_cancelled_date
+      transitions from: [:in_progress, :completed, :failed], to: :cancelled, after: :set_cancelled_date
     end
 
     event :retry do
-      transitions from: :failed, to :in_progress
+      transitions from: :failed, to: :pending
     end
   end
 
   def set_completed_date
-    task.update(completed_at: DateTime.now)
+    update(completed_at: DateTime.now)
   end
 
   def set_cancelled_date
-    task.update(cancelled_at: DateTime.now)
+    update(cancelled_at: DateTime.now)
+  end
+
+  def set_activity_in_progress
+    activity.start! if activity.may_start?
   end
 end
