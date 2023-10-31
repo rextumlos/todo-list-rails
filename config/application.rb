@@ -34,6 +34,8 @@ module App
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.active_record.yaml_column_permitted_classes = %w[String Integer NilClass Float Time Date FalseClass Hash Array DateTime TrueClass BigDecimal
+                                                           ActiveSupport::TimeWithZone ActiveSupport::TimeZone ActiveSupport::HashWithIndifferentAccess]
 
     # To use: datetime.to_fs || datetime.to_fs(:ymd)
     Time::DATE_FORMATS.merge!(default: '%Y/%m/%d %I:%M %p', ymd: '%Y/%m/%d')

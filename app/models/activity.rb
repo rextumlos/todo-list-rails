@@ -13,6 +13,10 @@ class Activity < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :search_by_title, -> (title) { where('title LIKE :search', search: "%#{title}%") }
 
+  # activity.own_and_associated_audits
+  audited
+  has_associated_audits
+
   include AASM
 
   aasm column: :state do

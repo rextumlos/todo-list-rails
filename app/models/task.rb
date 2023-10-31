@@ -14,6 +14,8 @@ class Task < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :search_by_title, -> (title) { where('title LIKE :search', search: "%#{title}%") }
 
+  audited associated_with: :activity
+
   include AASM
   
   aasm column: :state do
